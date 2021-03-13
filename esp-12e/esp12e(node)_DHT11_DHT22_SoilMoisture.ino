@@ -99,7 +99,7 @@ void loop()
   // Uploads new telemetry to ThingsBoard using MQTT.
   // See https://thingsboard.io/docs/reference/mqtt-api/#telemetry-upload-api
   // for more details
-  tb.sendTelemetryInt("LDR data", sensorValue);
+  tb.sendTelemetryInt("Soil moisture sensor", sensorValue);
   tb.sendTelemetryInt("DHT-11 temperature", temperature11);
   tb.sendTelemetryFloat("DHT-11 humidity", humidity11);
   tb.sendTelemetryInt("DHT-22 temperature", temperature22);

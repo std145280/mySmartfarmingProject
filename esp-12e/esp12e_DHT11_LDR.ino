@@ -1,4 +1,4 @@
-//ESP8266-12E  &&  DHT11  &&  LDR [temperature, humidity, light data]
+//ESP8266-12E  &&  DHT11  &&  LDR [temperature, humidity, light data] - 3 tokens version
 #include "ThingsBoard.h"
 
 #include <ESP8266WiFi.h>
@@ -10,8 +10,11 @@
 #define WIFI_PASSWORD "a1234567890a"
 
 //multiple tokens setup for multiple 1-sensor devices
+// Analog Device (LDR)
 #define TOKEN_1 "WDjwIpAgdgINoAVRbGMH"
+// DHT11 Temperature Device 
 #define TOKEN_2 "vNw2XqCMIqe8yJHQVakf"
+// DHT11 Humidity Device 
 #define TOKEN_3 "ZggbFLIi3snSb58ku6o8"
 
 #define THINGSBOARD_SERVER "demo.thingsboard.io"
@@ -19,7 +22,7 @@
 // Baud rate for debug serial
 #define SERIAL_DEBUG_BAUD 115200
 
-// Initialize ThingsBoard client
+// Initialize multiple ThingsBoard clients
 WiFiClient espClient1;
 WiFiClient espClient2;
 WiFiClient espClient3;
@@ -70,7 +73,7 @@ void loop()
   delay(100);
   if (!tb1.connected())
   {
-    // Connect to the ThingsBoard
+    // Connect to the ThingsBoard with token 1 device
     Serial.print("Connecting to: ");
     Serial.print(THINGSBOARD_SERVER);
     Serial.print(" with token ");
@@ -85,7 +88,7 @@ void loop()
   delay(100);
   if (!tb2.connected())
   {
-    // Connect to the ThingsBoard
+    // Connect to the ThingsBoard with token 2 device
     Serial.print("Connecting to: ");
     Serial.print(THINGSBOARD_SERVER);
     Serial.print(" with token ");
@@ -100,7 +103,7 @@ void loop()
   delay(100);
   if (!tb3.connected())
   {
-    // Connect to the ThingsBoard
+    // Connect to the ThingsBoard with token 3 device
     Serial.print("Connecting to: ");
     Serial.print(THINGSBOARD_SERVER);
     Serial.print(" with token ");

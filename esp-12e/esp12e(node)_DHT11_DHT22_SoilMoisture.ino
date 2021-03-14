@@ -6,22 +6,42 @@
 
 //DHT11, DHT22
 
-
-#define WIFI_AP "Forthn********"
-#define WIFI_PASSWORD "***********"
+#define WIFI_AP "Forthnet_WIFI"
+#define WIFI_PASSWORD "a1234567890a"
 
 // See https://thingsboard.io/docs/getting-started-guides/helloworld/
 // to understand how to obtain an access token
-#define TOKEN "My_Token"
+
+// Analog Device (Soil Moisture Sensor)
+#define TOKEN_1 "oG5Yg8ApyzOkIxSv6I5y"
+// DHT11 Temperature Device
+#define TOKEN_2 "9GsjmzZUjvNlmM1ZNBW1"
+// DHT11 Humidity Device
+#define TOKEN_3 "Tj9w3Q7hBaRNrCGztbUl"
+// DHT22 Temperature Device
+#define TOKEN_4 "8pCoTcGr5mt1xs0H2ETT"
+// DHT22 Humidity Device
+#define TOKEN_5 "1rG9vsZEUU3RLXfQEyrB"
+
 #define THINGSBOARD_SERVER "demo.thingsboard.io"
 
 // Baud rate for debug serial
 #define SERIAL_DEBUG_BAUD 115200
 
-// Initialize ThingsBoard client
-WiFiClient espClient;
-// Initialize ThingsBoard instance
-ThingsBoard tb(espClient);
+// Initialize multiple ThingsBoard clients
+WiFiClient espClient1;
+WiFiClient espClient2;
+WiFiClient espClient3;
+WiFiClient espClient4;
+WiFiClient espClient5;
+
+// Initialize multiple ThingsBoard instances
+ThingsBoard tb1(espClient1);
+ThingsBoard tb2(espClient2);
+ThingsBoard tb3(espClient3);
+ThingsBoard tb4(espClient4);
+ThingsBoard tb5(espClient5);
+
 // the Wifi radio's status
 int status = WL_IDLE_STATUS;
 
@@ -29,10 +49,9 @@ int status = WL_IDLE_STATUS;
 const int analogInPin = A0;
 int sensorValue = 0;
 
-// DHT Sensor
-DHT sensor1(D3, DHT11); 
+// DHT Sensors
+DHT sensor1(D3, DHT11);
 DHT sensor2(D1, DHT22);
-
 
 //DHT sensor reading
 //DHT11
@@ -63,16 +82,77 @@ void loop()
     reconnect();
   }
 
-  if (!tb.connected())
+  delay(100);
+  if (!tb1.connected())
   {
     // Connect to the ThingsBoard
     Serial.print("Connecting to: ");
     Serial.print(THINGSBOARD_SERVER);
     Serial.print(" with token ");
-    Serial.println(TOKEN);
-    if (!tb.connect(THINGSBOARD_SERVER, TOKEN))
+    Serial.println(TOKEN_1);
+    if (!tb1.connect(THINGSBOARD_SERVER, TOKEN_1))
     {
-      Serial.println("Failed to connect");
+      Serial.println("Failed to connect with token TOKEN_1");
+      return;
+    }
+  }
+
+  delay(100);
+  if (!tb2.connected())
+  {
+    // Connect to the ThingsBoard
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_2);
+    if (!tb2.connect(THINGSBOARD_SERVER, TOKEN_2))
+    {
+      Serial.println("Failed to connect with token TOKEN_2");
+      return;
+    }
+  }
+
+  delay(100);
+  if (!tb3.connected())
+  {
+    // Connect to the ThingsBoard
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_3);
+    if (!tb3.connect(THINGSBOARD_SERVER, TOKEN_3))
+    {
+      Serial.println("Failed to connect with token TOKEN_3");
+      return;
+    }
+  }
+
+  delay(100);
+  if (!tb4.connected())
+  {
+    // Connect to the ThingsBoard
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_4);
+    if (!tb4.connect(THINGSBOARD_SERVER, TOKEN_4))
+    {
+      Serial.println("Failed to connect with token TOKEN_4");
+      return;
+    }
+  }
+
+  delay(100);
+  if (!tb5.connected())
+  {
+    // Connect to the ThingsBoard
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_5);
+    if (!tb5.connect(THINGSBOARD_SERVER, TOKEN_5))
+    {
+      Serial.println("Failed to connect with token TOKEN_5");
       return;
     }
   }
@@ -99,13 +179,27 @@ void loop()
   // Uploads new telemetry to ThingsBoard using MQTT.
   // See https://thingsboard.io/docs/reference/mqtt-api/#telemetry-upload-api
   // for more details
-  tb.sendTelemetryInt("Soil moisture sensor", sensorValue);
-  tb.sendTelemetryInt("DHT-11 temperature", temperature_DHT11);
-  tb.sendTelemetryFloat("DHT-11 humidity", humidity_DHT11);
-  tb.sendTelemetryInt("DHT-22 temperature", temperature_DHT22);
-  tb.sendTelemetryFloat("DHT-22 humidity", humidity_DHT22);
+  delay(100);
+  tb1.sendTelemetryInt("Soil moisture sensor", sensorValue);
+  delay(100);
+  tb2.sendTelemetryInt("DHT-11 temperature", temperature_DHT11);
+  delay(100);
+  tb3.sendTelemetryFloat("DHT-11 humidity", humidity_DHT11);
+  delay(100);
+  tb4.sendTelemetryInt("DHT-22 temperature", temperature_DHT22);
+  delay(100);
+  tb5.sendTelemetryFloat("DHT-22 humidity", humidity_DHT22);
 
-  tb.loop();
+  delay(100);
+  tb1.loop();
+  delay(100);
+  tb2.loop();
+  delay(100);
+  tb3.loop();
+  delay(100);
+  tb4.loop();
+  delay(100);
+  tb5.loop();
 }
 
 void InitWiFi()

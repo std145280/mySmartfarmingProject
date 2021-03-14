@@ -83,27 +83,27 @@ void loop()
   sensorValue = analogRead(analogInPin);
 
   //DHT11 Data
-  temperature11 = sensor1.readTemperature();
-  humidity11 = sensor1.readHumidity();
+  temperature_DHT11 = sensor1.readTemperature();
+  humidity_DHT11 = sensor1.readHumidity();
 
-  temperature22 = sensor2.readTemperature();
-  humidity22 = sensor2.readHumidity();
+  temperature_DHT22 = sensor2.readTemperature();
+  humidity_DHT22 = sensor2.readHumidity();
 
   Serial.println("Sending data...");
   Serial.println("Soil moisture sensor: " + String(sensorValue));
-  Serial.println("DHT-11 temperature: " + String(temperature11));
-  Serial.println("DHT-11 humidity: " + String(humidity11));
-  Serial.println("DHT-22 temperature: " + String(temperature22));
-  Serial.println("DHT-22 humidity: " + String(humidity22));
+  Serial.println("DHT-11 temperature: " + String(temperature_DHT11));
+  Serial.println("DHT-11 humidity: " + String(humidity_DHT11));
+  Serial.println("DHT-22 temperature: " + String(temperature_DHT22));
+  Serial.println("DHT-22 humidity: " + String(humidity_DHT22));
 
   // Uploads new telemetry to ThingsBoard using MQTT.
   // See https://thingsboard.io/docs/reference/mqtt-api/#telemetry-upload-api
   // for more details
   tb.sendTelemetryInt("Soil moisture sensor", sensorValue);
-  tb.sendTelemetryInt("DHT-11 temperature", temperature11);
-  tb.sendTelemetryFloat("DHT-11 humidity", humidity11);
-  tb.sendTelemetryInt("DHT-22 temperature", temperature22);
-  tb.sendTelemetryFloat("DHT-22 humidity", humidity22);
+  tb.sendTelemetryInt("DHT-11 temperature", temperature_DHT11);
+  tb.sendTelemetryFloat("DHT-11 humidity", humidity_DHT11);
+  tb.sendTelemetryInt("DHT-22 temperature", temperature_DHT22);
+  tb.sendTelemetryFloat("DHT-22 humidity", humidity_DHT22);
 
   tb.loop();
 }

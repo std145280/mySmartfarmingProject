@@ -35,8 +35,8 @@ uint8_t DHTPin = D3;
 DHT dht(DHTPin, DHTTYPE);
 
 //DHT sensor reading
-float temperature11;
-float humidity11;
+float temperature_DHT11;
+float humidity_DHT11;
 
 void setup()
 {
@@ -84,15 +84,15 @@ void loop()
 
   Serial.println("Sending data...");
   Serial.println("LDR sensor: " + String(sensorValue));
-  Serial.println("DHT-11 temperature: " + String(temperature11));
-  Serial.println("DHT-11 humidity: " + String(humidity11));
+  Serial.println("DHT-11 temperature: " + String(temperature_DHT11));
+  Serial.println("DHT-11 humidity: " + String(humidity_DHT11));
 
   // Uploads new telemetry to ThingsBoard using MQTT.
   // See https://thingsboard.io/docs/reference/mqtt-api/#telemetry-upload-api
   // for more details
   tb.sendTelemetryInt("LDR data", sensorValue);
-  tb.sendTelemetryInt("DHT-11 temperature", temperature11);
-  tb.sendTelemetryFloat("DHT-11 humidity", humidity11);
+  tb.sendTelemetryInt("DHT-11 temperature", temperature_DHT11);
+  tb.sendTelemetryFloat("DHT-11 humidity", humidity_DHT11);
 
   tb.loop();
 }

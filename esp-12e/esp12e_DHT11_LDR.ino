@@ -4,24 +4,31 @@
 #include <ESP8266WiFi.h>
 #include "DHT.h"
 
-//DHT11
 #define DHTTYPE DHT11
 
-#define WIFI_AP "Forthn********"
-#define WIFI_PASSWORD "***********"
+#define WIFI_AP "Forthnet_WIFI"
+#define WIFI_PASSWORD "a1234567890a"
 
-// See https://thingsboard.io/docs/getting-started-guides/helloworld/
-// to understand how to obtain an access token
-#define TOKEN "My_Token"
+//multiple tokens setup for multiple 1-sensor devices
+#define TOKEN_1 "WDjwIpAgdgINoAVRbGMH"
+#define TOKEN_2 "vNw2XqCMIqe8yJHQVakf"
+#define TOKEN_3 "ZggbFLIi3snSb58ku6o8"
+
 #define THINGSBOARD_SERVER "demo.thingsboard.io"
 
 // Baud rate for debug serial
 #define SERIAL_DEBUG_BAUD 115200
 
 // Initialize ThingsBoard client
-WiFiClient espClient;
-// Initialize ThingsBoard instance
-ThingsBoard tb(espClient);
+WiFiClient espClient1;
+WiFiClient espClient2;
+WiFiClient espClient3;
+
+// Initialize Multiple ThingsBoard instances
+ThingsBoard tb1(espClient1);
+ThingsBoard tb2(espClient2);
+ThingsBoard tb3(espClient3);
+
 // the Wifi radio's status
 int status = WL_IDLE_STATUS;
 
@@ -31,6 +38,7 @@ int sensorValue = 0;
 
 // DHT Sensor
 uint8_t DHTPin = D3;
+
 // Initialize DHT sensor.
 DHT dht(DHTPin, DHTTYPE);
 
@@ -59,16 +67,47 @@ void loop()
     reconnect();
   }
 
-  if (!tb.connected())
+  delay(100);
+  if (!tb1.connected())
   {
     // Connect to the ThingsBoard
     Serial.print("Connecting to: ");
     Serial.print(THINGSBOARD_SERVER);
     Serial.print(" with token ");
-    Serial.println(TOKEN);
-    if (!tb.connect(THINGSBOARD_SERVER, TOKEN))
+    Serial.println(TOKEN_1);
+    if (!tb1.connect(THINGSBOARD_SERVER, TOKEN_1))
     {
-      Serial.println("Failed to connect");
+      Serial.println("Failed to connect with token TOKEN_1");
+      return;
+    }
+  }
+
+  delay(100);
+  if (!tb2.connected())
+  {
+    // Connect to the ThingsBoard
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_2);
+    if (!tb2.connect(THINGSBOARD_SERVER, TOKEN_2))
+    {
+      Serial.println("Failed to connect with token TOKEN_2");
+      return;
+    }
+  }
+
+  delay(100);
+  if (!tb3.connected())
+  {
+    // Connect to the ThingsBoard
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_3);
+    if (!tb3.connect(THINGSBOARD_SERVER, TOKEN_3))
+    {
+      Serial.println("Failed to connect with token TOKEN_3");
       return;
     }
   }
@@ -79,8 +118,8 @@ void loop()
   sensorValue = analogRead(analogInPin);
 
   //DHT11 Data
-  temperature11 = dht.readTemperature();
-  humidity11 = dht.readHumidity();
+  temperature_DHT11 = dht.readTemperature();
+  humidity_DHT11 = dht.readHumidity();
 
   Serial.println("Sending data...");
   Serial.println("LDR sensor: " + String(sensorValue));
@@ -90,11 +129,19 @@ void loop()
   // Uploads new telemetry to ThingsBoard using MQTT.
   // See https://thingsboard.io/docs/reference/mqtt-api/#telemetry-upload-api
   // for more details
-  tb.sendTelemetryInt("LDR data", sensorValue);
-  tb.sendTelemetryInt("DHT-11 temperature", temperature_DHT11);
-  tb.sendTelemetryFloat("DHT-11 humidity", humidity_DHT11);
+  delay(100);
+  tb1.sendTelemetryInt("LDR data", sensorValue);
+  delay(100);
+  tb2.sendTelemetryInt("DHT-11 temperature", temperature_DHT11);
+  delay(100);
+  tb3.sendTelemetryFloat("DHT-11 humidity", humidity_DHT11);
 
-  tb.loop();
+  delay(100);
+  tb1.loop();
+  delay(100);
+  tb2.loop();
+  delay(100);
+  tb3.loop();
 }
 
 void InitWiFi()

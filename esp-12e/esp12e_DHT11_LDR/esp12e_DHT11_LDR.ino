@@ -12,9 +12,9 @@
 //multiple tokens setup for multiple 1-sensor devices
 // Analog Device (LDR)
 #define TOKEN_1 "Qa82XbQHPyYgzVbbySda"
-// DHT11 Temperature Device 
+// DHT11 Temperature Device
 #define TOKEN_2 "bVbmAAWfOYi31eX8w0K0"
-// DHT11 Humidity Device 
+// DHT11 Humidity Device
 #define TOKEN_3 "ZmQFrvOXm4tNZOQJWnLr"
 
 
@@ -48,10 +48,18 @@ WiFiClient espClient1;
 WiFiClient espClient2;
 WiFiClient espClient3;
 
+WiFiClient espClient4;
+WiFiClient espClient5;
+WiFiClient espClient6;
+
 // Initialize Multiple ThingsBoard instances
 ThingsBoard tb1(espClient1);
 ThingsBoard tb2(espClient2);
 ThingsBoard tb3(espClient3);
+
+ThingsBoard tb4(espClient4);
+ThingsBoard tb5(espClient5);
+ThingsBoard tb6(espClient6);
 
 // the Wifi radio's status
 int status = WL_IDLE_STATUS;
@@ -70,6 +78,16 @@ DHT dht(DHTPin, DHTTYPE);
 float temperature_DHT11;
 float humidity_DHT11;
 
+
+//randomizer limits and values initialization
+int lower = 1, upper = 5;
+int randomNumber;
+int randomLoop = 10;
+
+float LDRSim;
+float Air1;
+float Air2;
+
 void setup()
 {
   // initialize serial for debugging
@@ -84,6 +102,19 @@ void setup()
 
 void loop()
 {
+  //random number generation
+  randomNumber = (rand() % (upper - lower + 1)) + lower;
+
+  if (randomLoop < 100) {
+    randomLoop = (randomLoop + randomNumber * 2);
+  } else {
+    randomLoop = (randomLoop - randomNumber * 2);
+  }
+
+
+  digitalWrite(D8, HIGH);
+  delay(90000);
+  digitalWrite(D6, LOW);
   delay(2500);
 
   if (WiFi.status() != WL_CONNECTED)
@@ -136,6 +167,51 @@ void loop()
     }
   }
 
+  delay(100);
+  if (!tb4.connected())
+  {
+    // Connect to the ThingsBoard with token 4 device
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_4);
+    if (!tb4.connect(THINGSBOARD_SERVER, TOKEN_4))
+    {
+      Serial.println("Failed to connect with token TOKEN_4");
+      return;
+    }
+  }
+
+  delay(100);
+  if (!tb5.connected())
+  {
+    // Connect to the ThingsBoard with token 5 device
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_5);
+    if (!tb5.connect(THINGSBOARD_SERVER, TOKEN_5))
+    {
+      Serial.println("Failed to connect with token TOKEN_5");
+      return;
+    }
+  }
+
+  delay(100);
+  if (!tb6.connected())
+  {
+    // Connect to the ThingsBoard with token 6 device
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_6);
+    if (!tb6.connect(THINGSBOARD_SERVER, TOKEN_6))
+    {
+      Serial.println("Failed to connect with token TOKEN_6");
+      return;
+    }
+  }
+
   delay(500);
 
   //data ldr
@@ -150,6 +226,10 @@ void loop()
   Serial.println("DHT-11 temperature: " + String(temperature_DHT11));
   Serial.println("DHT-11 humidity: " + String(humidity_DHT11));
 
+
+
+  Serial.println("Random Number:" + randomNumber);
+
   // Uploads new telemetry to ThingsBoard using MQTT.
   // See https://thingsboard.io/docs/reference/mqtt-api/#telemetry-upload-api
   // for more details
@@ -160,12 +240,36 @@ void loop()
   delay(100);
   tb3.sendTelemetryFloat("DHT-11 humidity", humidity_DHT11);
 
+  //Simulated values telemetry
+  delay(100);
+  LDRSim = sensorValue + randomNumber;
+  tb4.sendTelemetryInt("LDR data", LDRSim);
+  Serial.println("LDR Simulated: " + String(LDRSim));
+  randomNumber = (rand() % (upper - lower + 1)) + lower;
+  Air1 = randomLoop;
+  Air2 = randomLoop + randomNumber; //randomied second time
+
+
+  tb5.sendTelemetryInt("MH Q-2", Air1 );
+  delay(100);
+
+  tb6.sendTelemetryInt("MH Q-135", Air2);
+
+  Serial.println("MH Q-2: " + String(Air1));
+  Serial.println("MH Q-135: " +  String(Air2));
+
   delay(100);
   tb1.loop();
   delay(100);
   tb2.loop();
   delay(100);
   tb3.loop();
+  delay(100);
+  tb4.loop();
+  delay(100);
+  tb5.loop();
+  delay(100);
+  tb6.loop();
 }
 
 void InitWiFi()

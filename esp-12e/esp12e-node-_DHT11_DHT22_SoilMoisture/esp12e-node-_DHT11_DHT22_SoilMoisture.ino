@@ -260,13 +260,13 @@ void loop()
   // See https://thingsboard.io/docs/reference/mqtt-api/#telemetry-upload-api
   // for more details
   delay(100);
-  tb1.sendTelemetryInt("Soil moisture sensor", sensorValue);
+  tb1.sendTelemetryFloat("Soil moisture sensor", sensorValue);
   delay(100);
-  tb2.sendTelemetryInt("DHT-11 temperature", temperature_DHT11);
+  tb2.sendTelemetryFloat("DHT-11 temperature", temperature_DHT11);
   delay(100);
   tb3.sendTelemetryFloat("DHT-11 humidity", humidity_DHT11);
   delay(100);
-  tb4.sendTelemetryInt("DHT-22 temperature", temperature_DHT22);
+  tb4.sendTelemetryFloat("DHT-22 temperature", temperature_DHT22);
   delay(100);
   tb5.sendTelemetryFloat("DHT-22 humidity", humidity_DHT22);
 
@@ -287,7 +287,7 @@ void loop()
   delay(100);
   tb6.sendTelemetryFloat("DHT-22 temperature", DHT22SimTemp);
   delay(100);
-  tb7.sendTelemetryInt("DHT-22 humidity", DHT22SimHumi);
+  tb7.sendTelemetryFloat("DHT-22 humidity", DHT22SimHumi);
   delay(100);
   tb8.sendTelemetryFloat("Soil moisture sensor", SoilSim);
 

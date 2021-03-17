@@ -234,26 +234,26 @@ void loop()
   // See https://thingsboard.io/docs/reference/mqtt-api/#telemetry-upload-api
   // for more details
   delay(100);
-  tb1.sendTelemetryInt("LDR data", sensorValue);
+  tb1.sendTelemetryFloat("LDR data", sensorValue);
   delay(100);
-  tb2.sendTelemetryInt("DHT-11 temperature", temperature_DHT11);
+  tb2.sendTelemetryFloat("DHT-11 temperature", temperature_DHT11);
   delay(100);
   tb3.sendTelemetryFloat("DHT-11 humidity", humidity_DHT11);
 
   //Simulated values telemetry
   delay(100);
   LDRSim = sensorValue + randomNumber;
-  tb4.sendTelemetryInt("LDR data", LDRSim);
+  tb4.sendTelemetryFloat("LDR data", LDRSim);
   Serial.println("LDR Simulated: " + String(LDRSim));
   randomNumber = (rand() % (upper - lower + 1)) + lower;
   Air1 = randomLoop;
   Air2 = randomLoop + randomNumber; //randomied second time
 
 
-  tb5.sendTelemetryInt("MH Q-2", Air1 );
+  tb5.sendTelemetryFloat("MH Q-2", Air1 );
   delay(100);
 
-  tb6.sendTelemetryInt("MH Q-135", Air2);
+  tb6.sendTelemetryFloat("MH Q-135", Air2);
 
   Serial.println("MH Q-2: " + String(Air1));
   Serial.println("MH Q-135: " +  String(Air2));

@@ -228,7 +228,7 @@ void loop()
 
 
 
-  Serial.println("Random Number:" + randomNumber);
+  Serial.println("Random Number:" + String(randomNumber));
 
   // Uploads new telemetry to ThingsBoard using MQTT.
   // See https://thingsboard.io/docs/reference/mqtt-api/#telemetry-upload-api

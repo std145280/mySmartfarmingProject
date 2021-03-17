@@ -48,6 +48,9 @@ WiFiClient espClient2;
 WiFiClient espClient3;
 WiFiClient espClient4;
 WiFiClient espClient5;
+WiFiClient espClient6;
+WiFiClient espClient7;
+WiFiClient espClient8;
 
 // Initialize multiple ThingsBoard instances
 ThingsBoard tb1(espClient1);
@@ -55,6 +58,9 @@ ThingsBoard tb2(espClient2);
 ThingsBoard tb3(espClient3);
 ThingsBoard tb4(espClient4);
 ThingsBoard tb5(espClient5);
+ThingsBoard tb6(espClient6);
+ThingsBoard tb7(espClient7);
+ThingsBoard tb8(espClient8);
 
 // the Wifi radio's status
 int status = WL_IDLE_STATUS;
@@ -75,6 +81,17 @@ float humidity_DHT11;
 float temperature_DHT22;
 float humidity_DHT22;
 
+
+//randomizer limits and values initialization
+int lower = 1, upper = 5;
+int randomNumber;
+int randomLoop = 10;
+
+float DHT22SimTemp;
+float DHT22SimHumi;
+float SoilSim;
+
+
 void setup()
 {
   // initialize serial for debugging
@@ -89,6 +106,9 @@ void setup()
 
 void loop()
 {
+  delay(90000);
+
+  digitalWrite(D0, LOW);
   delay(2500);
 
   if (WiFi.status() != WL_CONNECTED)
@@ -171,6 +191,52 @@ void loop()
     }
   }
 
+  delay(100);
+  if (!tb6.connected())
+  {
+    // Connect to the ThingsBoard
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_6);
+    if (!tb6.connect(THINGSBOARD_SERVER, TOKEN_6))
+    {
+      Serial.println("Failed to connect with token TOKEN_6");
+      return;
+    }
+  }
+
+  delay(100);
+  if (!tb7.connected())
+  {
+    // Connect to the ThingsBoard
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_7);
+    if (!tb7.connect(THINGSBOARD_SERVER, TOKEN_7))
+    {
+      Serial.println("Failed to connect with token TOKEN_7");
+      return;
+    }
+  }
+
+
+  delay(100);
+  if (!tb8.connected())
+  {
+    // Connect to the ThingsBoard
+    Serial.print("Connecting to: ");
+    Serial.print(THINGSBOARD_SERVER);
+    Serial.print(" with token ");
+    Serial.println(TOKEN_8);
+    if (!tb8.connect(THINGSBOARD_SERVER, TOKEN_8))
+    {
+      Serial.println("Failed to connect with token TOKEN_8");
+      return;
+    }
+  }
+
   delay(500);
 
   //data ldr
@@ -204,6 +270,28 @@ void loop()
   delay(100);
   tb5.sendTelemetryFloat("DHT-22 humidity", humidity_DHT22);
 
+
+  //Simulated Sensors
+
+  //random number generation
+  randomNumber = (rand() % (upper - lower + 1)) + lower;
+  Serial.println("Random Number: " + String(randomNumber));
+  SoilSim = sensorValue + randomNumber;
+  Serial.println("Soil Moisture Simulated: " + String(SoilSim));
+
+  DHT22SimTemp = temperature_DHT22 + randomNumber;
+  DHT22SimHumi = humidity_DHT22 + randomNumber;
+  Serial.println("DHT22 Temperature Simulated: " + String(DHT22SimTemp));
+  Serial.println("DHT22 Humidity Simulated: " + String(DHT22SimHumi));
+
+  delay(100);
+  tb6.sendTelemetryFloat("DHT-22 temperature", DHT22SimTemp);
+  delay(100);
+  tb7.sendTelemetryInt("DHT-22 humidity", DHT22SimHumi);
+  delay(100);
+  tb8.sendTelemetryFloat("Soil moisture sensor", SoilSim);
+
+
   delay(100);
   tb1.loop();
   delay(100);
@@ -214,6 +302,12 @@ void loop()
   tb4.loop();
   delay(100);
   tb5.loop();
+  delay(100);
+  tb6.loop();
+  delay(100);
+  tb7.loop();
+  delay(100);
+  tb8.loop();
 }
 
 void InitWiFi()

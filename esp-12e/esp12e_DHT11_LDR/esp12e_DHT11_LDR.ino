@@ -11,11 +11,32 @@
 
 //multiple tokens setup for multiple 1-sensor devices
 // Analog Device (LDR)
-#define TOKEN_1 "WDjwIpAgdgINoAVRbGMH"
+#define TOKEN_1 "Qa82XbQHPyYgzVbbySda"
 // DHT11 Temperature Device 
-#define TOKEN_2 "vNw2XqCMIqe8yJHQVakf"
+#define TOKEN_2 "bVbmAAWfOYi31eX8w0K0"
 // DHT11 Humidity Device 
-#define TOKEN_3 "ZggbFLIi3snSb58ku6o8"
+#define TOKEN_3 "ZmQFrvOXm4tNZOQJWnLr"
+
+
+//simulated devices
+//SIMULATED Analog Device (LDR)
+#define TOKEN_4 "OtZklw6GmlIHhCNVZMZg"
+//SIMULATED AIR SENSOR 1 (MH Q-2)
+#define TOKEN_5 "mcWd68OzWhO8tVFJvlzs"
+//SIMULATED AIR SENSOR 2 (MH Q-135)
+#define TOKEN_6 "aCWOKlzyH3HRqZAvIbJJ"
+
+//Actuators (represented with leds)
+//Water Pump 1
+#define TOKEN_7 "H5yjoNcLG5bdk7GhoAFa"
+//FAN - air renewal
+#define TOKEN_8 "GwY6xIOfraG6PKo4RzK3"
+//FAN - hardware cooling
+#define TOKEN_9 "eFIyRRHkGvopebd1Q5ig"
+//Light - photosynthesis booster 1
+#define TOKEN_10 "z9ZdJD9KjSeqbeS91elH"
+//Buzzer (real buzzer on breadboard)
+#define TOKEN_11 "XjjqfxMeQVLcgrQAsgyr"
 
 #define THINGSBOARD_SERVER "demo.thingsboard.io"
 

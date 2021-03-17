@@ -13,15 +13,29 @@
 // to understand how to obtain an access token
 
 // Analog Device (Soil Moisture Sensor)
-#define TOKEN_1 "oG5Yg8ApyzOkIxSv6I5y"
+#define TOKEN_1 "Vex1ioMaJzM0T3os8Kmf"
 // DHT11 Temperature Device
-#define TOKEN_2 "9GsjmzZUjvNlmM1ZNBW1"
+#define TOKEN_2 "Z7z3PEM7g0SbeACbKLFm"
 // DHT11 Humidity Device
-#define TOKEN_3 "Tj9w3Q7hBaRNrCGztbUl"
+#define TOKEN_3 "bttkIkP3qeJPrWnAVIEj"
 // DHT22 Temperature Device
-#define TOKEN_4 "8pCoTcGr5mt1xs0H2ETT"
+#define TOKEN_4 "kyM5bGFGkj0LC8UOGXps"
 // DHT22 Humidity Device
-#define TOKEN_5 "1rG9vsZEUU3RLXfQEyrB"
+#define TOKEN_5 "fx84uJ9SyHa9rYrepQff"
+
+//simulated devices
+// SIMULATED DHT22 Temperature Device
+#define TOKEN_6 "eFMqmVqvjxCemD0St7po"
+// SIMULATED DHT22 Humidity Device
+#define TOKEN_7 "ORY57urBkKoOCAIW1NVR"
+// SIMULATED Analog Device (Soil Moisture Sensor 2)
+#define TOKEN_8 "9WU1DxIdYQjMcfQArRAt"
+
+//Actuators (represented with leds on breadboard)
+//Water Pump 2
+#define TOKEN_9 "G8v7pM1yZ22c3fj7L8oR"
+//Light - photosynthesis booster 2
+#define TOKEN_10 "wMLG9sQzziq6XxQ3fLVQ"
 
 #define THINGSBOARD_SERVER "demo.thingsboard.io"
 
